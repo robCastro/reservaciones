@@ -1,0 +1,41 @@
+Hola Roberto! Para continuar con el proceso, te envío la prueba a completar 
+Fecha máxima de Recepción
+sábado 18 de abril, 6pm 
+Plazo máximo de evalución de la prueba
+Jueves 23 de abril, 5.30pm
+ 
+Indicaciones 
+Se debe de crear una aplicación .Net Core que posea las siguientes características:
+•        Debe de contener una aplicación web desarrollada con Razor
+•        Debe de contener una web api, que implemente jwt para la autenticación y autorización de cada uno de los métodos.
+•        Se debe de utilizar como base de datos: SQL Server
+•        En la carpeta donde se encuentre el código fuente debe de existir un archivo .sql que contenga el script necesario para la generación e inserts necesario para la base de datos.
+•        Debe de existir un archivo llamado readme.txt que contenga las instrucciones para levantar y ejecutar el proyecto correctamente. Este elemento es importante para nosotros, si no podemos ejecutar el proyecto no lo podemos evaluar.
+•        Se ha enviado un correo de invitación para un repositorio en bit bucket, el cual estará disponible 3 dias después de la entrega del evaluado. Favor, si no se posee cuenta en bitbucket, crear un usuario con el correo al que se envío la evaluación. 
+ 
+Proyecto .Net Core
+•        La aplicación web debe de contener un CRUD para la reservación de salas de reuniones. La aplicación posee dos roles: administrador y usuarios standard(no administradores).
+•        El administrador del sistema puede:
+o   Agregar Sala de Reuniones
+o   Modificar los datos de una sala de reuniones
+o   Eliminar una sala de reuniones
+o   Listas las salas de reuniones
+•        El usuario no administrador puede:
+o   Visualizar la disponibilidad de salas de reuniones por dia
+o   Reservar sala de reuniones
+o   Cancelar reservación de sala
+•        Dos usuarios o más usuarios no pueden reservar una misma sala para un mismo momento.
+•        Un usuario no puede reservar dos o más salas para el mismo momento.
+•        Los datos necesarios para la sala son: Nombre, descripción para la ubicación.
+•        Para la reservación es necesario guardar los datos:
+o   Usuario que reservo
+o   Que dia reservo
+o   Fecha de inicio de reserva
+o   Fecha de fin de reserva
+•        No es necesario que se realice un CRUD de usuarios, pero los datos necesarios de cada usuario son:
+o   Nickname del usuario
+o   Nombre del usuario
+o   Password (encriptado)
+o   Correo electrónico.
+ 
+
