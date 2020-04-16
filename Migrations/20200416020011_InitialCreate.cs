@@ -11,7 +11,7 @@ namespace reservacion.Migrations
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     nombre = table.Column<string>(nullable: true),
                     descripcionUbicacion = table.Column<string>(nullable: true)
                 },

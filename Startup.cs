@@ -31,12 +31,12 @@ namespace reservacion
         {
             if (Environment.IsDevelopment()){
                 services.AddDbContext<ReservacionDbContext>(options => 
-                    options.UseSqlite(Configuration.GetConnectionString("ReservacionContext"))
+                    options.UseSqlServer(Configuration.GetConnectionString("ReservacionDevConnection"))
                 );
             }
             else{
                 services.AddDbContext<ReservacionDbContext>(options => 
-                    options.UseSqlServer(Configuration.GetConnectionString("ReservacionContext"))
+                    options.UseSqlServer(Configuration.GetConnectionString("ReservacionProdConnection"))
                 );
             }
             services.AddRazorPages();
