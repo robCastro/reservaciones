@@ -8,21 +8,37 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using reservacion.Data;
+using Microsoft.EntityFrameworkCore;
+    
+    //app.UseDatabaseErrorPage(); cambió de ubicacion a aca:
+using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;  
 namespace reservacion
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Environment = env;
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Environment.IsDevelopment()){
+                services.AddDbContext<ReservacionDbContext>(options => 
+                    options.UseSqlite(Configuration.GetConnectionString("ReservacionContext"))
+                );
+            }
+            else{
+                services.AddDbContext<ReservacionDbContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("ReservacionContext"))
+                );
+            }
             services.AddRazorPages();
         }
 
@@ -32,6 +48,7 @@ namespace reservacion
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
