@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using reservacion.Data;
 
 namespace reservacion.Migrations
 {
     [DbContext(typeof(ReservacionDbContext))]
-    partial class ReservacionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200416143926_IdentityScheme")]
+    partial class IdentityScheme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,40 +227,6 @@ namespace reservacion.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("reservacion.Models.Reservacion", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("FechaReservacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReservacionDesde")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReservacionHasta")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SalaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("SalaId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Reservacion");
-                });
-
             modelBuilder.Entity("reservacion.Models.Sala", b =>
                 {
                     b.Property<int>("ID")
@@ -266,10 +234,10 @@ namespace reservacion.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("DescripcionUbicacion")
+                    b.Property<string>("descripcionUbicacion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("nombre")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -326,19 +294,6 @@ namespace reservacion.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("reservacion.Models.Reservacion", b =>
-                {
-                    b.HasOne("reservacion.Models.Sala", "Sala")
-                        .WithMany("Reservaciones")
-                        .HasForeignKey("SalaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("reservacion.Areas.Identity.Data.User", "User")
-                        .WithMany("Reservaciones")
-                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }
