@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using reservacion.Areas.Identity.Data;
 using reservacion.Data;
 
-[assembly: HostingStartup(typeof(reservacion.Areas.Identity.IdentityHostingStartup))]
+// [assembly: HostingStartup(typeof(reservacion.Areas.Identity.IdentityHostingStartup))]
 namespace reservacion.Areas.Identity
 {
     public class IdentityHostingStartup //: IHostingStartup

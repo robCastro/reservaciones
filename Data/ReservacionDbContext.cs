@@ -10,6 +10,7 @@ namespace reservacion.Data
         public ReservacionDbContext(DbContextOptions<ReservacionDbContext>options): base(options){
         }
         public DbSet<reservacion.Models.Sala> Sala {get; set;}
+        public DbSet<reservacion.Models.Reservacion> Reservaciones {get; set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,6 +1,10 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using reservacion.Areas.Identity.Data;
+using reservacion.Data;
 
 namespace reservacion.Models{
     public static class DataSeeder
@@ -58,6 +62,31 @@ namespace reservacion.Models{
                 if(result.Succeeded){
                     userManager.AddToRoleAsync(user, adminRoleName).Wait();
                 }
+            }
+        }
+
+        public static void SeedData(IServiceProvider serviceProvider){
+            using (var context = new ReservacionDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<ReservacionDbContext>>()
+            ))
+            {
+                if(!context.Sala.Any()){
+                    context.Sala.AddRange(
+                        new Sala{
+                            Nombre="Sala de Juntas",
+                            DescripcionUbicacion="Edificio 1"
+                        },
+                        new Sala{
+                            Nombre="Sala de Conferencia",
+                            DescripcionUbicacion="Edificio 2"
+                        },
+                        new Sala{
+                            Nombre="Salon Principal",
+                            DescripcionUbicacion="Edificio 3"
+                        }
+                    );
+                }
+                context.SaveChanges();
             }
         }
     }
