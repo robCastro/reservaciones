@@ -11,9 +11,9 @@ using reservacion.Data;
 [assembly: HostingStartup(typeof(reservacion.Areas.Identity.IdentityHostingStartup))]
 namespace reservacion.Areas.Identity
 {
-    public class IdentityHostingStartup : IHostingStartup
+    public class IdentityHostingStartup //: IHostingStartup
     {
-        public void Configure(IWebHostBuilder builder)
+        /* public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<ReservacionDbContext>(options =>
@@ -23,6 +23,6 @@ namespace reservacion.Areas.Identity
                 services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ReservacionDbContext>();
             });
-        }
+        } */
     }
 }

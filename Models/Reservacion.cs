@@ -15,7 +15,7 @@ namespace reservacion.Models{
         [Display(Name = "Hasta")]
 		public DateTime ReservacionHasta {get; set;}
 
-		public int UserId {get; set;}
+		public string UserId {get; set;}
         public User User {get; set;}
 
         public int SalaId {get; set;}

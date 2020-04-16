@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using reservacion.Areas.Identity.Data;
 
 namespace reservacion.Data
 {
-    public class ReservacionDbContext: IdentityDbContext<User>
+    public class ReservacionDbContext: IdentityDbContext<User, IdentityRole, string>
     {
         public ReservacionDbContext(DbContextOptions<ReservacionDbContext>options): base(options){
         }

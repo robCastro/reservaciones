@@ -12,7 +12,10 @@ using reservacion.Data;
 using Microsoft.EntityFrameworkCore;
     
     //app.UseDatabaseErrorPage(); cambió de ubicacion a aca:
-using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;  
+using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using reservacion.Areas.Identity.Data;
+
 namespace reservacion
 {
     public class Startup
@@ -40,10 +43,24 @@ namespace reservacion
                 );
             }
             services.AddRazorPages();
+            services.AddDefaultIdentity<User>(x => {
+                x.Password.RequireDigit=false;
+                x.Password.RequiredLength=1;
+                x.Password.RequireLowercase=false;
+                x.Password.RequireNonAlphanumeric=false;
+                x.Password.RequireUppercase=false;
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ReservacionDbContext>();
+            // services.AddScoped<UserManager<User>>();
+            // services.AddScoped<RoleManager<IdentityRole>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager
+        )
         {
             if (env.IsDevelopment())
             {
@@ -56,7 +73,8 @@ namespace reservacion
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthentication();
+            reservacion.Models.DataSeeder.SeedData(userManager, roleManager);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
