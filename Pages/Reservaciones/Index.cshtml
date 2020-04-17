@@ -1,0 +1,60 @@
+@page
+@model reservacion.Pages.Reservaciones.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-light" asp-page="Create">Create New</a>
+</p>
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservacion[0].FechaReservacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservacion[0].ReservacionDesde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservacion[0].ReservacionHasta)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.Reservacion[0].User)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.Reservacion[0].Sala)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Reservacion) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaReservacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservacionDesde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservacionHasta)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala.Nombre)
+            </td>
+            <td>
+                <a class="btn btn-info" asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a class="btn btn-warning" asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

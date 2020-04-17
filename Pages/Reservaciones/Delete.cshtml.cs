@@ -9,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using reservacion.Data;
 using reservacion.Models;
 
-namespace reservacion.Pages.Salas
+namespace reservacion.Pages.Reservaciones
 {
-    
     [Authorize]
     public class DeleteModel : PageModel
     {
@@ -23,7 +22,7 @@ namespace reservacion.Pages.Salas
         }
 
         [BindProperty]
-        public Sala Sala { get; set; }
+        public Reservacion Reservacion { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,9 +31,11 @@ namespace reservacion.Pages.Salas
                 return NotFound();
             }
 
-            Sala = await _context.Sala.FirstOrDefaultAsync(m => m.ID == id);
+            Reservacion = await _context.Reservacion
+                .Include(r => r.Sala)
+                .Include(r => r.User).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Sala == null)
+            if (Reservacion == null)
             {
                 return NotFound();
             }
@@ -48,11 +49,11 @@ namespace reservacion.Pages.Salas
                 return NotFound();
             }
 
-            Sala = await _context.Sala.FindAsync(id);
+            Reservacion = await _context.Reservacion.FindAsync(id);
 
-            if (Sala != null)
+            if (Reservacion != null)
             {
-                _context.Sala.Remove(Sala);
+                _context.Reservacion.Remove(Reservacion);
                 await _context.SaveChangesAsync();
             }
 

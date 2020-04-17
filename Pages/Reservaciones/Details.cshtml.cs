@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using reservacion.Data;
 using reservacion.Models;
 
-namespace reservacion.Pages.Salas
+namespace reservacion.Pages.Reservaciones
 {
     [Authorize]
     public class DetailsModel : PageModel
@@ -21,7 +21,7 @@ namespace reservacion.Pages.Salas
             _context = context;
         }
 
-        public Sala Sala { get; set; }
+        public Reservacion Reservacion { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +30,11 @@ namespace reservacion.Pages.Salas
                 return NotFound();
             }
 
-            Sala = await _context.Sala.FirstOrDefaultAsync(m => m.ID == id);
+            Reservacion = await _context.Reservacion
+                .Include(r => r.Sala)
+                .Include(r => r.User).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Sala == null)
+            if (Reservacion == null)
             {
                 return NotFound();
             }

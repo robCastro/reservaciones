@@ -42,8 +42,8 @@ namespace reservacion.Models{
             for(int i=1; i<=cantidadUsuarios; i++){
                 if(userManager.FindByNameAsync(baseUsername + i.ToString()).Result == null){
                     User user = new User();
-                    user.UserName = baseUsername + i.ToString();
-                    user.Email = baseUsername + "@localhost";
+                    user.UserName = baseUsername + i.ToString() + "@localhost";
+                    user.Email = baseUsername + i.ToString() + "@localhost";
                     user.Nombres = baseNombreUser;
                     user.Apellidos = baseApellidoUser + i;
                     IdentityResult result = userManager.CreateAsync(user, basePassword).Result;
@@ -54,7 +54,7 @@ namespace reservacion.Models{
             }
             if(userManager.FindByNameAsync(adminUsername).Result == null){
                 User user = new User();
-                user.UserName = adminUsername;
+                user.UserName = adminUsername + "@localhost";
                 user.Email = adminUsername + "@localhost";
                 user.Nombres = adminUsername;
                 user.Apellidos = "site";

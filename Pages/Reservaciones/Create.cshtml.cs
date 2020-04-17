@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using reservacion.Data;
 using reservacion.Models;
 
-namespace reservacion.Pages.Salas
+namespace reservacion.Pages.Reservaciones
 {
     [Authorize]
     public class CreateModel : PageModel
@@ -23,11 +24,12 @@ namespace reservacion.Pages.Salas
 
         public IActionResult OnGet()
         {
+        ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
             return Page();
         }
-
+        
         [BindProperty]
-        public Sala Sala { get; set; }
+        public Reservacion Reservacion { get; set; }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
@@ -35,13 +37,16 @@ namespace reservacion.Pages.Salas
         {
             if (!ModelState.IsValid)
             {
+                ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
                 return Page();
             }
-
-            _context.Sala.Add(Sala);
+            Reservacion.FechaReservacion = DateTime.Now;
+            Reservacion.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _context.Reservacion.Add(Reservacion);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
+        
     }
 }

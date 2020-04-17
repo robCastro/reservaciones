@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using reservacion.Data;
 using reservacion.Models;
 
-namespace reservacion.Pages.Salas
+namespace reservacion.Pages.Reservaciones
 {
     [Authorize]
     public class IndexModel : PageModel
@@ -21,11 +22,15 @@ namespace reservacion.Pages.Salas
             _context = context;
         }
 
-        public IList<Sala> Sala { get;set; }
+        public IList<Reservacion> Reservacion { get;set; }
 
         public async Task OnGetAsync()
         {
-            Sala = await _context.Sala.ToListAsync();
+            Reservacion = await _context.Reservacion
+                .Include(r => r.Sala)
+                .Include(r => r.User).Where(
+                    r => r.UserId.Equals(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                ).ToListAsync();
         }
     }
 }

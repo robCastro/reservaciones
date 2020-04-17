@@ -1,0 +1,49 @@
+@page
+@model reservacion.Pages.Reservaciones.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalle</h1>
+
+<div>
+    <h4>Reservacion</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservacion.FechaReservacion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservacion.FechaReservacion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservacion.ReservacionDesde)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservacion.ReservacionDesde)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservacion.ReservacionHasta)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservacion.ReservacionHasta)
+        </dd>
+        @* <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservacion.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservacion.User.Id)
+        </dd> *@
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservacion.Sala)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservacion.Sala.Nombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Reservacion.ID">Editar</a> |
+    <a asp-page="./Index">Regresar a Reservaciones</a>
+</div>

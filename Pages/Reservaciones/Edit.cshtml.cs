@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using reservacion.Data;
 using reservacion.Models;
 
-namespace reservacion.Pages.Salas
+namespace reservacion.Pages.Reservaciones
 {
     [Authorize]
     public class EditModel : PageModel
@@ -23,7 +24,7 @@ namespace reservacion.Pages.Salas
         }
 
         [BindProperty]
-        public Sala Sala { get; set; }
+        public Reservacion Reservacion { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,12 +33,16 @@ namespace reservacion.Pages.Salas
                 return NotFound();
             }
 
-            Sala = await _context.Sala.FirstOrDefaultAsync(m => m.ID == id);
+            Reservacion = await _context.Reservacion
+                .Include(r => r.Sala)
+                .Include(r => r.User).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Sala == null)
+            if (Reservacion == null)
             {
                 return NotFound();
             }
+           ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
+           // ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
@@ -47,10 +52,12 @@ namespace reservacion.Pages.Salas
         {
             if (!ModelState.IsValid)
             {
+                ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
                 return Page();
             }
-
-            _context.Attach(Sala).State = EntityState.Modified;
+            Reservacion.FechaReservacion = DateTime.Now;
+            Reservacion.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _context.Attach(Reservacion).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +65,7 @@ namespace reservacion.Pages.Salas
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SalaExists(Sala.ID))
+                if (!ReservacionExists(Reservacion.ID))
                 {
                     return NotFound();
                 }
@@ -71,9 +78,9 @@ namespace reservacion.Pages.Salas
             return RedirectToPage("./Index");
         }
 
-        private bool SalaExists(int id)
+        private bool ReservacionExists(int id)
         {
-            return _context.Sala.Any(e => e.ID == id);
+            return _context.Reservacion.Any(e => e.ID == id);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace reservacion.Models{
 	public class Sala{
+		[Display(Name = "Sala")]
 		public int ID {get; set;}
 		
 		[Display(Name = "Nombre")]

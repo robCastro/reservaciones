@@ -15,6 +15,16 @@
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
+    @if(User.IsInRole("Administrador")){
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-page="./Salas/Index" title="Manage">Salas</a>
+        </li>
+    }
+    @if(User.IsInRole("Normal")){
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-page="./Reservaciones/Index" title="Manage">Reservacion</a>
+        </li>
+    }
 }
 else
 {

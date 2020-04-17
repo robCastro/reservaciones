@@ -50,8 +50,6 @@ namespace reservacion
                 x.Password.RequireNonAlphanumeric=false;
                 x.Password.RequireUppercase=false;
             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ReservacionDbContext>();
-            // services.AddScoped<UserManager<User>>();
-            // services.AddScoped<RoleManager<IdentityRole>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,13 +69,11 @@ namespace reservacion
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseAuthentication();
-            // reservacion.Models.DataSeeder.SeedData(userManager, roleManager);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
