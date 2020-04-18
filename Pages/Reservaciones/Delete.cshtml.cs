@@ -11,7 +11,7 @@ using reservacion.Models;
 
 namespace reservacion.Pages.Reservaciones
 {
-    [Authorize]
+    [Authorize(Roles = "Normal")]
     public class DeleteModel : PageModel
     {
         private readonly reservacion.Data.ReservacionDbContext _context;

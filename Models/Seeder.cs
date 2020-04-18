@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,10 @@ namespace reservacion.Models{
         private static string basePassword = "passReservacion2020";
         private static int cantidadUsuarios = 3;
         public static void SeedData(UserManager<User> userManager,RoleManager<IdentityRole> roleManager){
-            Console.WriteLine("Iniciado Seeder");
+            Console.WriteLine("Seeding Users");
             SeedRoles(roleManager);
             SeedUsers(userManager);
-            Console.WriteLine("Seeder Completado");
+            Console.WriteLine("Users Seeded");
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager){
@@ -66,6 +67,7 @@ namespace reservacion.Models{
         }
 
         public static void SeedData(IServiceProvider serviceProvider){
+            Console.WriteLine("Seeding Salas and Reservaciones");
             using (var context = new ReservacionDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ReservacionDbContext>>()
             ))
@@ -85,8 +87,26 @@ namespace reservacion.Models{
                             DescripcionUbicacion="Edificio 3"
                         }
                     );
+                    context.SaveChanges();
                 }
+                
+                if(!context.Reservacion.Any()){
+                    List<User> usuarios = context.Users.ToList();
+                    int horas = 1;
+                    foreach(User user in usuarios){
+                        Reservacion reservacion = new Reservacion();
+                        reservacion.FechaReservacion = DateTime.Now;
+                        reservacion.ReservacionDesde = DateTime.Now.AddDays(1).AddHours(horas);
+                        reservacion.ReservacionHasta = reservacion.ReservacionDesde.AddHours(horas+1);
+                        reservacion.SalaId = context.Sala.First().ID;
+                        reservacion.UserId = user.Id;
+                        horas += 2;
+                        context.Reservacion.Add(reservacion);
+                    }
+                }
+
                 context.SaveChanges();
+                Console.WriteLine("Salas and Reservaciones Seeded");
             }
         }
     }

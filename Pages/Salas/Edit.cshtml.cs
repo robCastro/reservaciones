@@ -12,7 +12,7 @@ using reservacion.Models;
 
 namespace reservacion.Pages.Salas
 {
-    [Authorize]
+    [Authorize(Roles="Administrador")]
     public class EditModel : PageModel
     {
         private readonly reservacion.Data.ReservacionDbContext _context;

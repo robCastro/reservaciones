@@ -13,7 +13,7 @@ using reservacion.Models;
 
 namespace reservacion.Pages.Reservaciones
 {
-    [Authorize]
+    [Authorize(Roles = "Normal")]
     public class EditModel : PageModel
     {
         private readonly reservacion.Data.ReservacionDbContext _context;
