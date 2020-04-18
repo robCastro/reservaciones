@@ -46,7 +46,11 @@ namespace reservacion
                     options.UseSqlServer(Configuration.GetConnectionString("ReservacionProdConnection"))
                 );
             }
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => {
+                // Para evitar errores de serializacion en Reservacion Controller
+                options.SerializerSettings.ReferenceLoopHandling 
+                    = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddRazorPages();
             services.AddDefaultIdentity<User>(x => {
                 x.Password.RequireDigit=false;

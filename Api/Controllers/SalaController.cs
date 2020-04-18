@@ -37,7 +37,7 @@ namespace reservacion.Api.Controllers{
 
         [HttpPost]
         public async Task<ActionResult<Sala>> PostAsync([FromBody] Sala sala){
-            Boolean isValid = TryValidateModel(sala);
+            Boolean isValid = TryValidateModel(sala, nameof(sala));
             if(!isValid){
                 return BadRequest();
             }
