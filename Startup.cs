@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using reservacion.Data;
 using Microsoft.EntityFrameworkCore;
     
@@ -15,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using reservacion.Areas.Identity.Data;
+using Microsoft.IdentityModel.Tokens;
+using reservacion.Api.JwtCustomModels;
+using System.Text;
 
 namespace reservacion
 {
@@ -42,6 +46,7 @@ namespace reservacion
                     options.UseSqlServer(Configuration.GetConnectionString("ReservacionProdConnection"))
                 );
             }
+            services.AddControllers();
             services.AddRazorPages();
             services.AddDefaultIdentity<User>(x => {
                 x.Password.RequireDigit=false;
@@ -50,6 +55,17 @@ namespace reservacion
                 x.Password.RequireNonAlphanumeric=false;
                 x.Password.RequireUppercase=false;
             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ReservacionDbContext>();
+
+            services.AddAuthentication()
+                .AddCookie(options => options.SlidingExpiration = true)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters(){
+                        ValidIssuer = JwtCustomConstants.Issuer,
+                        ValidAudience = JwtCustomConstants.Audience,
+                        IssuerSigningKey = 
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtCustomConstants.secretKey))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +95,7 @@ namespace reservacion
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
