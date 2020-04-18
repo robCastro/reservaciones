@@ -35,13 +35,18 @@ namespace reservacion.Pages.Reservaciones
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
+            Reservacion.FechaReservacion = DateTime.Now;
+            Reservacion.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Boolean isValid = TryValidateModel(Reservacion, nameof(Reservacion));
+            if(!isValid){
                 ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
                 return Page();
             }
-            Reservacion.FechaReservacion = DateTime.Now;
-            Reservacion.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            /* if (!ModelState.IsValid)
+            {
+                ViewData["SalaId"] = new SelectList(_context.Sala, "ID", "Nombre");
+                return Page();
+            } */
             _context.Reservacion.Add(Reservacion);
             await _context.SaveChangesAsync();
 

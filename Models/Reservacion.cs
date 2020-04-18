@@ -13,7 +13,6 @@ namespace reservacion.Models{
 		
 		[DataType(DataType.DateTime)]
         [Display(Name = "Desde")]
-		[ReservacionDesdeValidator]
 		public DateTime ReservacionDesde {get; set;}
 
 		[DataType(DataType.DateTime)]
